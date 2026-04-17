@@ -9,7 +9,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/rithishvellingiri/ibm-hr-analytics.git'
+                git branch: 'main', url: 'https://github.com/rithishvellingiri/ibm-hr-analytics.git'
             }
         }
 
