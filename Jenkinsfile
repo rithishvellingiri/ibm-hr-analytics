@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "/var/lib/jenkins/.local/bin:/opt/sonar-scanner/bin:${env.PATH}"
+    }
+
     triggers {
         pollSCM('* * * * *')
     }
@@ -9,20 +13,20 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/rithishvellingiri/ibm-hr-analytics.git'
+                git branch: 'main', url: 'https://github.com/rithishvellingiri/ibm-hr-analytics.git'
             }
         }
 
         stage('Lint') {
             steps {
-                sh 'pip install flake8'
+                sh 'pip install flake8 --break-system-packages'
                 sh 'flake8 . || true'
             }
         }
 
         stage('Unit Test') {
             steps {
-                sh 'pip install pytest'
+                sh 'pip install pytest --break-system-packages'
                 sh 'pytest || true'
             }
         }
@@ -31,10 +35,19 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     sh '''
-                    sonar-scanner \
+                    /opt/sonar-scanner/bin/sonar-scanner \
                     -Dsonar.projectKey=hr-project \
-                    -Dsonar.sources=. \
+                    -Dsonar.sources=.
                     '''
+                }
+            }
+        }
+
+        // ✅ ADD THIS STAGE
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }

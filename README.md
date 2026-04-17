@@ -6,3 +6,4 @@ Install the dependancies such  pandas numpy matplotlib seaborn scikit-learn jobl
 First run the main.py file the plots and the pkl files for the trained models will be generated .
 Then run the app.py by using the command “streamlit run app.py” the prediction dashboard opens . There you can make the predictions for the new data .
 echo "# Feature update" >> README.md
+rithish
