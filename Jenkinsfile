@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "/var/lib/jenkins/.local/bin:/opt/sonar-scanner/bin:${env.PATH}"
+    }
+
     triggers {
         pollSCM('* * * * *')
     }
@@ -33,7 +37,7 @@ pipeline {
                     sh '''
                     sonar-scanner \
                     -Dsonar.projectKey=hr-project \
-                    -Dsonar.sources=. \
+                    -Dsonar.sources=.
                     '''
                 }
             }
