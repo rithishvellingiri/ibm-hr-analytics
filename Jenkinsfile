@@ -51,5 +51,16 @@ pipeline {
                 }
             }
         }
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t hr-app .'
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                echo "Docker image ready (push optional for lab)"
+            }
+        }
+
     }
 }
