@@ -15,14 +15,14 @@ pipeline {
 
         stage('Lint') {
             steps {
-                sh 'pip install flake8'
+                sh 'pip install flake8 --break-system-packages'
                 sh 'flake8 . || true'
             }
         }
 
         stage('Unit Test') {
             steps {
-                sh 'pip install pytest'
+                sh 'pip install pytest --break-system-packages'
                 sh 'pytest || true'
             }
         }
